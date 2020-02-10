@@ -46,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
                 int soMin = Integer.parseInt(textSmin);
                 if (soMax <= soMin){
                     soMax = soMin + 1;
+                    mEdtSomax.setText(soMax + "");
                 }
+                Random random = new Random();
+                int value = random.nextInt(soMax - soMin +1) + soMin;
+                mTvKetqua.setText(value + "");
             }
         });
     }
