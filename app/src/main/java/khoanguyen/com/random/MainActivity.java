@@ -35,8 +35,18 @@ public class MainActivity extends AppCompatActivity {
                 String textSmin = mEdtSomin.getText().toString();
                 String textSmax = mEdtSomax.getText().toString();
 
-                Log.d("BBB",textSmax);
-                Log.d("BBB",textSmin);
+                Log.d("BBB", textSmax);
+                Log.d("BBB", textSmin);
+
+                if (textSmax.isEmpty() || textSmin.isEmpty()) {
+                    Toast.makeText(MainActivity.this, " bạn chưa nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int soMax = Integer.parseInt(textSmax);
+                int soMin = Integer.parseInt(textSmin);
+                if (soMax <= soMin){
+                    soMax = soMin + 1;
+                }
             }
         });
     }
