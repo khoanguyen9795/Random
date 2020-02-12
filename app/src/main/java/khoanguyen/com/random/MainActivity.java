@@ -10,13 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText mEdtSomin, mEdtSomax;
-    Button mBtnRandom;
+    Button mBtnRandom,mBtnResetRange,mBtnAddRange;
     TextView mTvKetqua;
+    int[] arrayRange;
+    Random random = new Random();
     //String Mketqua = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
        mEdtSomax = findViewById(R.id.editSomax);
        mEdtSomin = findViewById(R.id.editSomin);
        mBtnRandom = findViewById(R.id.btnRandom);
+        mBtnResetRange = findViewById(R.id.btnResetRange);
+        mBtnAddRange = findViewById(R.id.btnRange);
        mTvKetqua = findViewById(R.id.tvKetqua);
+
         // Task 1 : Kiểm tra có dữ liệu trong 2 Edittext hay không
         // Task 2 : Nếu số max < số min , số max = smin + 1;
         // Task 3 : Click button random trả về số trong khoản min và max
@@ -45,30 +51,69 @@ public class MainActivity extends AppCompatActivity {
 //                + Lấy giá trị random được hiển thị lên trên text
 //                + Hiện thị theo format ( 5 - 9 - 10 - 9)
 //                + Nếu hết số random thì báo cho người dùng biết
+        ArrayList<Integer> array = new ArrayList<>();
+        // thêm dữ liệu vào mảng
+        array.add(1);
+        array.add(14);
+        array.add(5);
+        Log.d ("BBB", array.size() + "" );
 
-        mBtnRandom.setOnClickListener(new View.OnClickListener() {
+        mBtnAddRange.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 String textSmin = mEdtSomin.getText().toString();
                 String textSmax = mEdtSomax.getText().toString();
-
-                Log.d("BBB", textSmax);
-                Log.d("BBB", textSmin);
-
                 if (textSmax.isEmpty() || textSmin.isEmpty()) {
                     Toast.makeText(MainActivity.this, " bạn chưa nhập đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int soMax = Integer.parseInt(textSmax);
                 int soMin = Integer.parseInt(textSmin);
-                if (soMax <= soMin){
+                if (soMax <= soMin) {
                     soMax = soMin + 1;
                     mEdtSomax.setText(soMax + "");
                 }
-                Random random = new Random();
-                int value = random.nextInt(soMax - soMin +1) + soMin;
-                mTvKetqua.append(value + "-");
+                arrayRange = new int[soMax - soMin + 1];
+                int count = soMin;
+                for (int i = 0; i < arrayRange.length; i++) {
+                    arrayRange[i] = count++;
+                }
+                mEdtSomax.setEnabled(false);
+                mEdtSomin.setEnabled(false);
+                mBtnAddRange.setEnabled(false);
             }
         });
+        mBtnRandom.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+             int index = random.nextInt(arrayRange.length);
+             int value = arrayRange[index];
+             mTvKetqua.append(value + "-");
+            }
+        });
+//        mBtnRandom.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String textSmin = mEdtSomin.getText().toString();
+//                String textSmax = mEdtSomax.getText().toString();
+//
+//                Log.d("BBB", textSmax);
+//                Log.d("BBB", textSmin);
+//
+//                if (textSmax.isEmpty() || textSmin.isEmpty()) {
+//                    Toast.makeText(MainActivity.this, " bạn chưa nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                int soMax = Integer.parseInt(textSmax);
+//                int soMin = Integer.parseInt(textSmin);
+//                if (soMax <= soMin){
+//                    soMax = soMin + 1;
+//                    mEdtSomax.setText(soMax + "");
+//                }
+//                Random random = new Random();
+//                int value = random.nextInt(soMax - soMin +1) + soMin;
+//                mTvKetqua.append(value + "-");
+//            }
+//        });
     }
 }
