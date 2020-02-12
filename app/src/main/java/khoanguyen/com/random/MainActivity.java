@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText mEdtSomin, mEdtSomax;
     Button mBtnRandom;
     TextView mTvKetqua;
+    String Mketqua = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Random random = new Random();
                 int value = random.nextInt(soMax - soMin +1) + soMin;
-                mTvKetqua.setText(value + "");
+                Mketqua += value + "-";
+                mTvKetqua.setText(Mketqua + "");
             }
         });
     }
