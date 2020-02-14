@@ -2,6 +2,7 @@ package khoanguyen.com.random;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,9 @@ public class MainActivity extends AppCompatActivity {
     EditText mEdtSomin, mEdtSomax;
     Button mBtnRandom,mBtnResetRange,mBtnAddRange;
     TextView mTvKetqua;
-    int[] arrayRange;
     Random random = new Random();
+    ArrayList<Integer> arrayRange = new ArrayList<>();
+    String mValueText = "";
     //String Mketqua = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
 //                + Lấy giá trị random được hiển thị lên trên text
 //                + Hiện thị theo format ( 5 - 9 - 10 - 9)
 //                + Nếu hết số random thì báo cho người dùng biết
-        ArrayList<Integer> array = new ArrayList<>();
-        // thêm dữ liệu vào mảng
-        array.add(1);
-        array.add(14);
-        array.add(5);
-        Log.d ("BBB", array.size() + "" );
 
         mBtnAddRange.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -73,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
                     soMax = soMin + 1;
                     mEdtSomax.setText(soMax + "");
                 }
-                arrayRange = new int[soMax - soMin + 1];
+
                 int count = soMin;
-                for (int i = 0; i < arrayRange.length; i++) {
-                    arrayRange[i] = count++;
+                for (int i = 0; i <= (soMax- soMin); i++) {
+                    arrayRange.add( count++);
                 }
                 mEdtSomax.setEnabled(false);
                 mEdtSomin.setEnabled(false);
@@ -86,9 +82,21 @@ public class MainActivity extends AppCompatActivity {
         mBtnRandom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-             int index = random.nextInt(arrayRange.length);
-             int value = arrayRange[index];
-             mTvKetqua.append(value + "-");
+                if (arrayRange.size() >0 ) {
+                    int index = random.nextInt(arrayRange.size());
+                    int value = arrayRange.get(index);
+
+                    if (arrayRange.size() == 1){
+                        mValueText += value;
+                    }else{
+                        mValueText +=  value + " - ";
+                    }
+                    mTvKetqua.setText(mValueText);
+                    arrayRange.remove(index);
+                }else{
+                    Toast.makeText(MainActivity.this, "Không còn số Random", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 //        mBtnRandom.setOnClickListener(new View.OnClickListener() {
